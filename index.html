@@ -41,25 +41,25 @@
                 </div>
             </div>
 
-            <!-- 盤點區域 -->
-            <div id="inventoryLists"></div>
-
-            <!-- 動態紀錄區塊 -->
-            <div class="mt-8 space-y-8 pb-6">
+            <!-- 動態紀錄區塊：移至盤點區域上方 -->
+            <div class="mb-8 space-y-6 pb-6 border-b-2 border-slate-100">
                 <!-- 今日叫貨 -->
-                <div class="border-t-2 border-slate-100 pt-4" id="section-order">
+                <div id="section-order">
                     <h2 class="bg-orange-600 px-3 py-1.5 font-bold text-white rounded-lg text-base shadow-sm inline-block mb-3">今日叫貨紀錄</h2>
                     <div id="orderItemsContainer" class="space-y-2"></div>
                     <button onclick="addItemRow('order')" class="mt-2 w-full py-2 border-2 border-dashed border-orange-300 text-orange-600 rounded-lg font-bold text-sm hover:bg-orange-50 transition">+ 新增叫貨品項</button>
                 </div>
 
                 <!-- 今日進貨 -->
-                <div class="border-t-2 border-slate-100 pt-4" id="section-receive">
+                <div id="section-receive">
                     <h2 class="bg-emerald-600 px-3 py-1.5 font-bold text-white rounded-lg text-base shadow-sm inline-block mb-3">今日進貨紀錄</h2>
                     <div id="receiveItemsContainer" class="space-y-2"></div>
                     <button onclick="addItemRow('receive')" class="mt-2 w-full py-2 border-2 border-dashed border-emerald-300 text-emerald-600 rounded-lg font-bold text-sm hover:bg-emerald-50 transition">+ 新增進貨品項</button>
                 </div>
             </div>
+
+            <!-- 盤點區域（包含日常盤點與三天盤點一次） -->
+            <div id="inventoryLists"></div>
         </div>
     </div>
 
@@ -85,7 +85,7 @@
             "XO干貝醬": ["XO干貝醬(罐)"]
         };
 
-        // 2. 盤點品項區域內容
+        // 2. 盤點品項區域內容（加入三大區塊與三天盤點一次）
         const sections = [
             { 
                 name: "兩門冰凍", 
@@ -109,7 +109,7 @@
                     { n: "豬排醬", u: "(包)", s: 1 }
                 ] 
             },
-              { 
+            { 
                 name: "白冰箱", 
                 alert: true, 
                 items: [
@@ -126,7 +126,7 @@
                     { n: "明太子醬", u: "(包)", s: 1 },
                     { n: "花枝丸", u: "(包)", s: 2 },
                     { n: "鱈魚條", u: "(包)", s: 2 },
-                    { n: "可樂餅", u: "(包)", s:3 },
+                    { n: "可樂餅", u: "(包)", s: 3 },
                     { n: "豬肉", u: "(袋)", s: 10 },
                     { n: "牛肉", u: "(袋)", s: 5 },
                     { n: "唐揚雞", u: "(袋)", s: 5 },
@@ -144,8 +144,76 @@
                     { n: "美乃滋", u: "(瓶)", s: 4 },
                     { n: "柴魚片", u: "(包)", s: 2 },
                     { n: "唐揚雞粉", u: "(包)", s: 2 },
-                    { n: "瓦斯", u: "(桶)", s: 2 },
+                    { n: "瓦斯", u: "(包)", s: 2 },
                     { n: "炸油", u: "(桶)", s: 2 }
+                ]
+            },
+            // --- 大標題：三天盤點一次 ---
+            {
+                groupTitle: "🗓️ 三天盤點一次",
+                name: "食材類",
+                alert: true,
+                items: [
+                    { n: "海苔粉", u: "(包)", s: 1 },
+                    { n: "巴西里粉", u: "(包)", s: 1 },
+                    { n: "白芝麻", u: "(包)", s: 2 },
+                    { n: "辣椒絲", u: "(包)", s: 4 },
+                    { n: "韓式醃料粉", u: "(包)", s: 1 },
+                    { n: "韓式醃料醬", u: "(盒)", s: 2 },
+                    { n: "砂糖-韓式用", u: "(包)", s: 1 },
+                    { n: "泰式醬", u: "(罐)", s: 1 }
+                ]
+            },
+            {
+                name: "耗材類",
+                alert: true,
+                items: [
+                    { n: "902紙碗", u: "(條)", s: 5 },
+                    { n: "902碗蓋", u: "(條)", s: 5 },
+                    { n: "方盒", u: "(條)", s: 5 },
+                    { n: "方盒蓋", u: "(條)", s: 5 },
+                    { n: "白色紙袋", u: "(捆)", s: 3 },
+                    { n: "10斤袋", u: "(條)", s: 1 },
+                    { n: "3斤袋", u: "(條)", s: 1 },
+                    { n: "6兩袋-薯條用", u: "(包)", s: 1 },
+                    { n: "3兩袋-包肉用", u: "(包)", s: 1 },
+                    { n: "綠袋", u: "(包)", s: 5 },
+                    { n: "黃袋", u: "(包)", s: 4 },
+                    { n: "紅袋", u: "(包)", s: 3 },
+                    { n: "大綠袋", u: "(包)", s: 3 },
+                    { n: "竹筷子", u: "(包)", s: 5 },
+                    { n: "花枝丸竹籤", u: "(包)", s: 5 },
+                    { n: "紙杯", u: "(條)", s: 5 },
+                    { n: "外帶醬料盅", u: "(條)", s: 3 }
+                ]
+            },
+            {
+                name: "清潔類",
+                alert: true,
+                items: [
+                    { n: "垃圾袋", u: "(條)", s: 5 },
+                    { n: "菜瓜布", u: "(個)", s: 5 },
+                    { n: "抹布", u: "(條)", s: 10 },
+                    { n: "鋼絲球", u: "(顆)", s: 2 },
+                    { n: "LOC 萬用", u: "(瓶)", s: 1 },
+                    { n: "LOC 廚房用", u: "(瓶)", s: 1 },
+                    { n: "LOC 洗碗用", u: "(瓶)", s: 2 },
+                    { n: "擦手紙", u: "(條)", s: 2 },
+                    { n: "衛生紙", u: "(包)", s: 10 },
+                    { n: "酒精", u: "(桶)", s: 1 },
+                    { n: "Ｌ手套", u: "(盒)", s: 1 },
+                    { n: "Ｍ手套", u: "(盒)", s: 1 },
+                    { n: "Ｓ手套", u: "(盒)", s: 1 },
+                    { n: "保鮮膜", u: "(盒)", s: 1 }
+                ]
+            },
+            {
+                name: "其他類",
+                alert: true,
+                items: [
+                    { n: "58mm出單紙", u: "(捲)", s: 10 },
+                    { n: "85mm出單紙", u: "(捲)", s: 10 },
+                    { n: "廢油", u: "(桶)", s: 2, isMax: true } // 最多限制標示
                 ]
             }
         ];
@@ -156,36 +224,64 @@
 
         function renderTables() {
             const container = document.getElementById('inventoryLists');
-            container.innerHTML = sections.map(sec => `
-                <div class="mb-8">
-                    <div class="flex items-center gap-2 mb-2">
-                        <h2 class="bg-slate-800 px-3 py-1.5 font-bold text-white rounded-lg text-base shadow-sm inline-block">${sec.name}</h2>
+            container.innerHTML = sections.map(sec => {
+                let groupHtml = "";
+                if (sec.groupTitle) {
+                    groupHtml = `
+                        <div class="mt-8 mb-4 pt-4 border-t-4 border-indigo-100">
+                            <div class="bg-indigo-900 text-white font-bold text-lg px-4 py-2.5 rounded-xl text-center shadow-md border border-indigo-800">
+                                ${sec.groupTitle}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                return `
+                    ${groupHtml}
+                    <div class="mb-8">
+                        <div class="flex items-center gap-2 mb-2">
+                            <h2 class="bg-slate-800 px-3 py-1.5 font-bold text-white rounded-lg text-base shadow-sm inline-block">${sec.name}</h2>
+                        </div>
+                        <table class="w-full text-left border-collapse" data-sec="${sec.name}">
+                            <thead><tr class="text-xs text-gray-400 border-b"><th class="py-2 px-1">品項名稱</th><th class="w-24 text-center">盤點數量</th></tr></thead>
+                            <tbody>${sec.items.map(item => `
+                                <tr class="border-b border-gray-50 last:border-0 transition-colors">
+                                    <td class="py-3 px-1">
+                                        <span class="text-gray-800 font-bold text-sm item-name">${item.n}</span>
+                                        <span class="unit-text ml-0.5">${item.u}</span>
+                                        <span class="safety-tag ml-1">${item.isMax ? '最多' : '最低'}:${item.s}</span>
+                                    </td>
+                                    <td class="py-1 text-right">
+                                        <input type="number" class="w-20 border border-gray-200 rounded-lg p-2 text-center font-bold text-blue-800 text-xl focus:border-blue-500 outline-none qty-input-main bg-gray-50" 
+                                        data-name="${item.n}" data-safety="${item.s}" data-ismax="${item.isMax || false}" data-alert="${sec.alert}" inputmode="numeric" oninput="validate(this)">
+                                    </td>
+                                </tr>`).join('')}
+                            </tbody>
+                        </table>
                     </div>
-                    <table class="w-full text-left border-collapse" data-sec="${sec.name}">
-                        <thead><tr class="text-xs text-gray-400 border-b"><th class="py-2 px-1">品項名稱</th><th class="w-24 text-center">盤點數量</th></tr></thead>
-                        <tbody>${sec.items.map(item => `
-                            <tr class="border-b border-gray-50 last:border-0 transition-colors">
-                                <td class="py-3 px-1">
-                                    <span class="text-gray-800 font-bold text-sm item-name">${item.n}</span>
-                                    <span class="unit-text ml-0.5">${item.u}</span>
-                                    <span class="safety-tag ml-1">最低:${item.s}</span>
-                                </td>
-                                <td class="py-1 text-right">
-                                    <input type="number" class="w-20 border border-gray-200 rounded-lg p-2 text-center font-bold text-blue-800 text-xl focus:border-blue-500 outline-none qty-input-main bg-gray-50" 
-                                    data-name="${item.n}" data-safety="${item.s}" data-alert="${sec.alert}" inputmode="numeric" oninput="validate(this)">
-                                </td>
-                            </tr>`).join('')}
-                        </tbody>
-                    </table>
-                </div>`).join('');
+                `;
+            }).join('');
         }
 
         function validate(el) {
             const val = parseFloat(el.value);
             const safety = parseFloat(el.dataset.safety);
+            const isMax = el.dataset.ismax === "true";
             const row = el.closest('tr');
-            if (el.dataset.alert === "true" && !isNaN(val) && val < safety) row.classList.add('low-stock-row');
-            else row.classList.remove('low-stock-row');
+            
+            if (el.dataset.alert === "true" && !isNaN(val)) {
+                if (isMax) {
+                    // 超過最多數量時警示
+                    if (val > safety) row.classList.add('low-stock-row');
+                    else row.classList.remove('low-stock-row');
+                } else {
+                    // 低於最低數量時警示
+                    if (val < safety) row.classList.add('low-stock-row');
+                    else row.classList.remove('low-stock-row');
+                }
+            } else {
+                row.classList.remove('low-stock-row');
+            }
         }
 
         function addItemRow(type) {
@@ -236,6 +332,26 @@
             const signer = document.getElementById('signer').value || "未簽名";
             let text = `📦 【巨城店庫存盤點】\n📅 日期：${today.toLocaleDateString()}\n👤 人員：${signer}\n━━━━━━━━━━━━━━\n`;
             
+            // 加入叫貨與進貨資訊於頂部文字
+            const getList = (type) => {
+                let s = "";
+                document.querySelectorAll(`#${type}ItemsContainer .item-row`).forEach(row => {
+                    const p = row.querySelector('.parent-select').value;
+                    const c = row.querySelector('.child-select').value;
+                    const q = row.querySelector('.qty-input').value;
+                    const u = row.querySelector('.unit-label').innerText;
+                    if(p && c) {
+                        const displayQ = q.trim() !== "" ? q : "";
+                        s += `• ${p}-${c.split('(')[0]}：${displayQ} ${u}\n`;
+                    }
+                });
+                return s || "(無)\n";
+            };
+
+            text += `📝 今日叫貨\n${getList('order')}`;
+            text += `\n🚚 今日進貨\n${getList('receive')}`;
+            text += `━━━━━━━━━━━━━━\n`;
+
             document.querySelectorAll('table').forEach(table => {
                 let sectionContent = "";
                 table.querySelectorAll('tbody tr').forEach(row => {
@@ -252,28 +368,10 @@
                 }
             });
 
-            const getList = (type) => {
-                let s = "";
-                document.querySelectorAll(`#${type}ItemsContainer .item-row`).forEach(row => {
-                    const p = row.querySelector('.parent-select').value;
-                    const c = row.querySelector('.child-select').value;
-                    const q = row.querySelector('.qty-input').value;
-                    const u = row.querySelector('.unit-label').innerText;
-                    if(p && c) {
-                        const displayQ = q.trim() !== "" ? q : "";
-                        s += `• ${p}-${c.split('(')[0]}：${displayQ} ${u}\n`;
-                    }
-                });
-                return s || "(無)\n";
-            };
-
-            text += `\n━━━━━━━━━━━━━━\n📝 今日叫貨\n${getList('order')}`;
-            text += `\n━━━━━━━━━━━━━━\n🚚 今日進貨\n${getList('receive')}`;
-
             const textArea = document.createElement("textarea");
             textArea.value = text; document.body.appendChild(textArea); textArea.select();
             document.execCommand('copy'); document.body.removeChild(textArea);
-            showToast("✅ 已複製全頁資料（含空欄位）");
+            showToast("✅ 已複製全頁資料（含叫貨進貨與新盤點區域）");
         }
 
         function exportExcel() {
@@ -281,7 +379,7 @@
             document.querySelectorAll('table').forEach(table => {
                 table.querySelectorAll('tbody tr').forEach(row => {
                     const val = row.querySelector('.qty-input-main').value;
-                    exportData.push([table.dataset.sec, row.querySelector('.item-name').innerText, val, row.classList.contains('low-stock-row') ? "不足" : (val !== "" ? "正常" : "")]);
+                    exportData.push([table.dataset.sec, row.querySelector('.item-name').innerText, val, row.classList.contains('low-stock-row') ? "異常/提醒" : (val !== "" ? "正常" : "")]);
                 });
             });
 
